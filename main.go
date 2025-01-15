@@ -4,18 +4,19 @@ import (
 	"fast_gin/core"
 	"fast_gin/flags"
 	"fast_gin/global"
-	"github.com/sirupsen/logrus"
+	"fmt"
 )
 
 func main() {
 	core.InitLogger()
-	flags.Run()
+	flags.Parse()
 	global.Config = core.ReadConfig()
 	global.DB = core.InitGorm()
 	global.Redis = core.InitRedis()
 
-	logrus.Debugf("你好")
-	logrus.Infof("你好")
-	logrus.Warnf("你好")
-	logrus.Errorf("你好")
+	if flags.Run() {
+		return
+	}
+
+	fmt.Println("web服务")
 }
