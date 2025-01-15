@@ -1,7 +1,0 @@
-[2025-01-15 23:35:31] [36m[info][0m main.go:16 main.main 你好
-[2025-01-15 23:36:10] [36m[info][0m main.go:16 main.main 你好
-[2025-01-15 23:36:10] [33m[warning][0m main.go:17 main.main 你好
-[2025-01-15 23:36:10] [31m[error][0m main.go:18 main.main 你好
-[2025-01-15 23:38:05] [36m[info][0m main.go:16 main.main 你好
-[2025-01-15 23:38:05] [33m[warning][0m main.go:17 main.main 你好
-[2025-01-15 23:38:05] [31m[error][0m main.go:18 main.main 你好
