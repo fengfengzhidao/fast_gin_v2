@@ -1,5 +1,7 @@
 db:
-    host: 127.0.0.1
-    port: dfgkjdfgjk
+    mode: mysql # mysql pgsql sqlite ""
+    db_name: study_db
+    host: 127.0.0.14
+    port: 3306
     user: root
     password: root

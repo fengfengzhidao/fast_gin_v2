@@ -11,6 +11,7 @@ func main() {
 	core.InitLogger()
 	flags.Run()
 	global.Config = core.ReadConfig()
+	global.DB = core.InitGorm()
 
 	logrus.Debugf("你好")
 	logrus.Infof("你好")

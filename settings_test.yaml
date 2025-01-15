@@ -1,0 +1,7 @@
+db:
+  mode:  # mysql pgsql sqlite ""
+  db_name: data.db
+  host:
+  port:
+  user:
+  password:
