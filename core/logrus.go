@@ -61,50 +61,79 @@ func InitLogger() {
 }
 
 type MyHook struct {
-	file    *os.File // 当前打开的日志文件
-	errFile *os.File // 错误日志的日志文件
-	date    string   // 当前日志的时间
-	logPath string   // 日志的目录
-	mu      sync.Mutex
+	file     *os.File
+	errFile  *os.File
+	fileDate string
+	logPath  string
+	mu       sync.Mutex
 }
 
 func (hook *MyHook) Fire(entry *logrus.Entry) error {
-	// 1.写入到文件
-	// 2.按时间分片
-	// 3.错误的日志单独存放
 	hook.mu.Lock()
 	defer hook.mu.Unlock()
-	msg, _ := entry.String()
-	date := entry.Time.Format("2006-01-02")
-	if hook.date != date {
-		// 换时间,换文件对象
-		hook.rotateFiles(date)
-		hook.date = date
+
+	timer := entry.Time.Format("2006-01-02")
+	line, err := entry.String()
+	if err != nil {
+		return fmt.Errorf("failed to format log entry: %v", err)
 	}
+
+	if hook.fileDate != timer {
+		if err := hook.rotateFiles(timer); err != nil {
+			return err
+		}
+	}
+
+	if _, err := hook.file.Write([]byte(line)); err != nil {
+		return fmt.Errorf("failed to write to log file: %v", err)
+	}
+
 	if entry.Level <= logrus.ErrorLevel {
-		hook.errFile.Write([]byte(msg))
+		if _, err := hook.errFile.Write([]byte(line)); err != nil {
+			return fmt.Errorf("failed to write to error log file: %v", err)
+		}
 	}
-	hook.file.Write([]byte(msg))
+
 	return nil
 }
+
+// rotateFiles 日志轮换
 func (hook *MyHook) rotateFiles(timer string) error {
 	if hook.file != nil {
-		hook.file.Close()
+		if err := hook.file.Close(); err != nil {
+			return fmt.Errorf("failed to close log file: %v", err)
+		}
 	}
-	if hook.file == nil {
-		// 创建目录
-		logDir := fmt.Sprintf("%s/%s", hook.logPath, timer)
-		os.MkdirAll(logDir, 0666)
-		logPath := fmt.Sprintf("%s/info.log", logDir)
-		file, _ := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		hook.file = file
+	if hook.errFile != nil {
+		if err := hook.errFile.Close(); err != nil {
+			return fmt.Errorf("failed to close error log file: %v", err)
+		}
+	}
 
-		errLogPath := fmt.Sprintf("%s/err.log", logDir)
-		errFile, _ := os.OpenFile(errLogPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-		hook.errFile = errFile
+	dirName := fmt.Sprintf("%s/%s", hook.logPath, timer)
+	if err := os.MkdirAll(dirName, os.ModePerm); err != nil {
+		return fmt.Errorf("failed to create log directory: %v", err)
 	}
+
+	infoFilename := fmt.Sprintf("%s/info.log", dirName)
+	errFilename := fmt.Sprintf("%s/err.log", dirName)
+
+	var err error
+	hook.file, err = os.OpenFile(infoFilename, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0600)
+	if err != nil {
+		return fmt.Errorf("failed to open log file: %v", err)
+	}
+
+	hook.errFile, err = os.OpenFile(errFilename, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0600)
+	if err != nil {
+		return fmt.Errorf("failed to open error log file: %v", err)
+	}
+
+	hook.fileDate = timer
 	return nil
 }
-func (*MyHook) Levels() []logrus.Level {
+
+// Levels 哪些级别的日志能走 Fire 方法
+func (hook *MyHook) Levels() []logrus.Level {
 	return logrus.AllLevels
 }
