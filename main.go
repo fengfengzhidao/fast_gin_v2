@@ -12,6 +12,7 @@ func main() {
 	flags.Run()
 	global.Config = core.ReadConfig()
 	global.DB = core.InitGorm()
+	global.Redis = core.InitRedis()
 
 	logrus.Debugf("你好")
 	logrus.Infof("你好")
