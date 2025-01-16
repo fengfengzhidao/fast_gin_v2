@@ -8,15 +8,20 @@ import (
 	"time"
 )
 
-type MyClaims struct {
+type Claims struct {
 	UserID uint `json:"userID"`
+	RoleID uint `json:"roleID"`
+}
+
+type MyClaims struct {
+	Claims
 	jwt.RegisteredClaims
 }
 
 // SetToken 生成token
-func SetToken(userID uint) (string, error) {
+func SetToken(data Claims) (string, error) {
 	SetClaims := MyClaims{
-		UserID: userID,
+		Claims: data,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(global.Config.Jwt.Expires) * time.Hour)), //有效时间
 			Issuer:    global.Config.Jwt.Issuer,                                                                 //签发人
