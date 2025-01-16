@@ -9,3 +9,7 @@ redis:
   addr: "127.0.0.1:6379"
   password: ""
   db: 1
+system:
+  mode: debug # release debug
+  ip: 127.0.0.1
+  port: 8080

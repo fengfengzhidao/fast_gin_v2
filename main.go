@@ -4,7 +4,7 @@ import (
 	"fast_gin/core"
 	"fast_gin/flags"
 	"fast_gin/global"
-	"fmt"
+	"fast_gin/routers"
 )
 
 func main() {
@@ -16,5 +16,5 @@ func main() {
 
 	flags.Run()
 
-	fmt.Println("web服务")
+	routers.Run()
 }
