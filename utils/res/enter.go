@@ -1,6 +1,9 @@
 package res
 
-import "github.com/gin-gonic/gin"
+import (
+	"fast_gin/utils/validate"
+	"github.com/gin-gonic/gin"
+)
 
 type Response struct {
 	Code int    `json:"code"`
@@ -36,5 +39,6 @@ func FailWithMsg(msg string, c *gin.Context) {
 }
 
 func FailWithError(err error, c *gin.Context) {
-	Fail(7, err.Error(), c)
+	msg := validate.ValidateError(err)
+	Fail(7, msg, c)
 }
