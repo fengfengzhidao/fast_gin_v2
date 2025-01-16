@@ -4,6 +4,7 @@ import (
 	"fast_gin/global"
 	"flag"
 	"fmt"
+	"os"
 )
 
 type FlagOptions struct {
@@ -21,14 +22,13 @@ func Parse() {
 	flag.Parse()
 }
 
-func Run() (ok bool) {
+func Run() {
 	if Options.DB {
-		fmt.Println("表结构迁移")
-		return true
+		MigrateDB()
+		os.Exit(0)
 	}
 	if Options.Version {
 		fmt.Println("当前后端版本", global.Version)
-		return true
+		os.Exit(0)
 	}
-	return false
 }

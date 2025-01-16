@@ -14,9 +14,7 @@ func main() {
 	global.DB = core.InitGorm()
 	global.Redis = core.InitRedis()
 
-	if flags.Run() {
-		return
-	}
+	flags.Run()
 
 	fmt.Println("web服务")
 }
