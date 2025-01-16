@@ -13,3 +13,7 @@ system:
   mode: debug # release debug
   ip: 127.0.0.1
   port: 8080
+jwt:
+  expires: 8 # 有效期，单位小时
+  issuer: fengfeng
+  key: dxsgjndkjfgj
