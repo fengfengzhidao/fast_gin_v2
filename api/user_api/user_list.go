@@ -1,7 +1,10 @@
 package user_api
 
-import "github.com/gin-gonic/gin"
+import (
+	"fast_gin/utils/res"
+	"github.com/gin-gonic/gin"
+)
 
 func (UserApi) UserListView(c *gin.Context) {
-	c.String(200, "用户列表")
+	res.OkWithData("用户列表", c)
 }

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fast_gin/utils/res"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -46,11 +47,7 @@ func (l *Limiter) Middleware(c *gin.Context) {
 
 	// 检查请求数量是否超过限制
 	if len(l.timestamps[ip]) >= l.limit {
-		c.JSON(429, gin.H{
-			"code": 9,
-			"data": gin.H{},
-			"msg":  "Too Many Requests",
-		})
+		res.FailWithMsg("Too Many Request", c)
 		c.Abort()
 		return
 	}
