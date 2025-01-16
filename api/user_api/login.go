@@ -1,6 +1,7 @@
 package user_api
 
 import (
+	"fast_gin/middleware"
 	"fast_gin/utils/res"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -12,12 +13,7 @@ type LoginRequest struct {
 }
 
 func (UserApi) LoginView(c *gin.Context) {
-	var cr LoginRequest
-	err := c.ShouldBindJSON(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	cr := middleware.GetBind[LoginRequest](c)
 	fmt.Println(cr)
 	res.OkWithData("用户登录", c)
 	return
