@@ -15,6 +15,7 @@ func Run() {
 
 	UserRouter(g)
 	ImageRouter(g)
+	CaptchaRouter(g)
 
 	addr := global.Config.System.Addr()
 	if global.Config.System.Mode == "release" {
