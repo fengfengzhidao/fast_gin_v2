@@ -11,4 +11,5 @@ func UserRouter(g *gin.RouterGroup) {
 	app := api.App.UserApi
 	g.POST("users/login", middleware.LimitMiddleware(2), middleware.BindJsonMiddleware[user_api.LoginRequest], app.LoginView)
 	g.GET("users", middleware.LimitMiddleware(10), middleware.AdminMiddleware, app.UserListView)
+	g.POST("users/logout", middleware.AuthMiddleware, app.LogoutView)
 }
