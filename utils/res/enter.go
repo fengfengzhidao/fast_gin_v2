@@ -26,6 +26,13 @@ func OkWithData(data any, c *gin.Context) {
 	Ok(data, "成功", c)
 }
 
+func OkWithList(list any, count int64, c *gin.Context) {
+	Ok(map[string]any{
+		"list":  list,
+		"count": count,
+	}, "成功", c)
+}
+
 func Fail(code int, msg string, c *gin.Context) {
 	c.JSON(200, Response{
 		Code: code,
