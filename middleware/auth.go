@@ -30,5 +30,16 @@ func AdminMiddleware(c *gin.Context) {
 		c.Abort()
 		return
 	}
+	c.Set("claims", claims)
 	c.Next()
+}
+
+func GetAuth(c *gin.Context) (cl *jwts.MyClaims) {
+	cl = new(jwts.MyClaims)
+	_claims, ok := c.Get("claims")
+	if !ok {
+		return
+	}
+	cl, ok = _claims.(*jwts.MyClaims)
+	return
 }

@@ -16,7 +16,7 @@ type GenerateResponse struct {
 func (CaptchaApi) GenerateView(c *gin.Context) {
 	var driver = base64Captcha.DriverString{
 		Width:           200,
-		Height:          40,
+		Height:          60,
 		NoiseCount:      2,
 		ShowLineOptions: 4,
 		Length:          4,
