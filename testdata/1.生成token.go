@@ -17,6 +17,6 @@ func main() {
 		RoleID: 1,
 	})
 	fmt.Println(token, err)
-	claims, err := jwts.CheckToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlzcyI6ImZlbmdmZW5nIiwiZXhwIjoxNzM3MDYwNzY2fQ.MQ-uiLjU0UArChYUPx2EjqSWZYkpvNRdhk26LwaOjo1")
-	fmt.Println(claims, err)
+	//claims, err := jwts.CheckToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsImlzcyI6ImZlbmdmZW5nIiwiZXhwIjoxNzM3MDYwNzY2fQ.MQ-uiLjU0UArChYUPx2EjqSWZYkpvNRdhk26LwaOjo1")
+	//fmt.Println(claims, err)
 }

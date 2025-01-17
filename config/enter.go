@@ -5,4 +5,5 @@ type Config struct {
 	Redis  Redis  `yaml:"redis"`
 	System System `yaml:"system"`
 	Jwt    Jwt    `yaml:"jwt"`
+	Upload Upload `yaml:"upload"`
 }

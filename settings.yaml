@@ -17,3 +17,7 @@ jwt:
   expires: 8 # 有效期，单位小时
   issuer: fengfeng
   key: dxsgjndkjfgj
+upload:
+  size: 2 # 上传大小限制 单位MB
+  dir: images
+
