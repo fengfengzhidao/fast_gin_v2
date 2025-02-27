@@ -6,7 +6,7 @@ db:
   user: root
   password: 123456
 redis:
-  addr: 10.2.0.3
+  addr: 10.2.0.3:6379
   password: ""
   db: 1
 system:
