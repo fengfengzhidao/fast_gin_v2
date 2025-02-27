@@ -1,0 +1,51 @@
+version: '3.2'
+services:
+  mysql:
+    image: "mysql:5.7"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: db
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --max_allowed_packet=128M;
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/data.sql:/docker-entrypoint-initdb.d/data.sql
+    networks:
+      fg_network:
+        ipv4_address: 10.2.0.2
+  redis:
+    restart: always
+    image: redis:5.0.5
+    networks:
+      fg_network:
+        ipv4_address: 10.2.0.3
+  server:
+    restart: always
+    build:
+      context: ../
+    networks:
+      fg_network:
+        ipv4_address: 10.2.0.7
+    environment:
+      TZ: Asia/Shanghai
+    depends_on:
+      - mysql
+      - redis
+    volumes:
+      - ./server/settings.yaml:/app/settings.yaml
+      - ./server/uploads:/app/uploads
+      - ./server/logs:/app/logs
+    command: "/app/main"
+networks:  #定义容器连接网络
+  fg_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.2.0.0/24

@@ -1,0 +1,26 @@
+db:
+  mode: mysql # mysql pgsql sqlite ""
+  db_name: db
+  host: 10.2.0.2
+  port: 3306
+  user: root
+  password: 123456
+redis:
+  addr: 10.2.0.3
+  password: ""
+  db: 1
+system:
+  mode: debug # release debug
+  ip: 0.0.0.0
+  port: 8080
+jwt:
+  expires: 8 # 有效期，单位小时
+  issuer: fengfeng
+  key: dxsgjndkjfgj
+upload:
+  size: 2 # 上传大小限制 单位MB
+  dir: images
+site:
+  login:
+    captcha: true
+
